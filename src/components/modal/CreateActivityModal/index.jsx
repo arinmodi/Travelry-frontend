@@ -14,9 +14,9 @@ const style = {
 	textAlign: "center",
 	width: 600,
 	bgcolor: "background.paper",
-	border: "2px solid #000",
 	boxShadow: 24,
 	p: 4,
+	borderRadius: 5
 };
 export default function CreateActivityModal({ open, handleClose }) {
 	const [files, setFiles] = useState([]);
@@ -29,13 +29,14 @@ export default function CreateActivityModal({ open, handleClose }) {
 					id="modal-modal-title"
 					variant="h6"
 					component="h2"
-					sx={{ marginBottom: "8px" }}
+					sx={{ marginBottom: "20px" }}
+					className="font-bold"
 				>
-					Create a diary
+					Create Diary
 				</Typography>
 				<div
 					className="d-flex justify-content-center align-items-center flex-column"
-					sx={{ marginBottom: "8px" }}
+					sx={{ marginBottom: "20px" }}
 				>
 					{files.length > 0 ? (
 						<Diary image={urls[0]} name={title} />
@@ -43,7 +44,8 @@ export default function CreateActivityModal({ open, handleClose }) {
 						<Button
 							variant="contained"
 							component="label"
-							sx={{ marginBottom: "8px" }}
+							sx={{ marginBottom: "20px" }}
+							className="w-diary"
 						>
 							Upload Image
 							<ImageFileInput
@@ -59,17 +61,18 @@ export default function CreateActivityModal({ open, handleClose }) {
 							setTitle(e.target.value);
 						}}
 						placeholder={"Enter title of your diary"}
-						sx={{ marginBottom: "8px", marginTop: "8px" }}
+						sx={{ marginBottom: "20px", marginTop: "20px" }}
+						className="w-diary"
 					/>
 					<div
 						className="d-flex justify-content-center align-items-center"
-						style={{ marginBottom: "8px" }}
+						style={{ marginBottom: "20px" }}
 					>
 						{files.length > 0 ? (
 							<Button
 								variant="contained"
 								component="label"
-								sx={{ marginRight: "8px" }}
+								sx={{ marginRight: "20px" }}
 							>
 								Change Image
 								<ImageFileInput
@@ -82,7 +85,7 @@ export default function CreateActivityModal({ open, handleClose }) {
 						<Button
 							variant="contained"
 							endIcon={<SendIcon />}
-							sx={{ marginLeft: "8px" }}
+							sx={{ marginLeft: "20px" }}
 						>
 							Create
 						</Button>
