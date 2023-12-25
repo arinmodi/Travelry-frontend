@@ -1,0 +1,83 @@
+.main-container {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    right: 0;
+    top: 0;
+    z-index: 4;
+    background: rgba(0, 0, 0, 0.5);
+    transition: background 0.3s ease-in-out;
+}
+
+.container {
+    height: 100%;
+    width: fit-content;
+    position: fixed;
+    right: 0px;
+    background-color: white;
+    z-index: 5;
+    padding-top: 2rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    transition: transform 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    box-shadow: 0px 0px 10px inset;
+    overflow-y: auto;
+}
+
+.diary-name-input {
+    margin-left: 2rem;
+    margin-top: 1rem;
+    width: 19rem;
+    padding: 0.5rem 0.5rem;
+    border: 1px solid black;
+    font-size: 0.9rem;
+    border-radius: 0.5rem;
+}
+
+.inner-title {
+    margin-left: 2rem;
+    margin-top: 2rem;
+}
+
+.cover-container {
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.change-button {
+    width: 19rem;
+}
+
+.top-section-container {
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+ 
+.color-container {
+    margin-left: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.color-title {
+    font-size: 1rem;
+    margin-right: 2rem;
+    font-weight: bold;
+}
+
+.color-input {
+    border: 1px solid black;
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+    overflow: hidden;
+}
+
+.save-button {
+    margin: 0rem 2rem;
+    margin-bottom: 2rem;
+}

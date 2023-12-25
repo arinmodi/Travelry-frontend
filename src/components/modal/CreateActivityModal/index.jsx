@@ -4,6 +4,7 @@ import { Input } from "@mui/material";
 import Diary from "components/Diary";
 import ImageGrid from "components/ImageGrid";
 import ImageFileInput from "components/ImageInput";
+import ImageInput from "components/ImageInput/ImageInput";
 import { useState } from "react";
 
 const style = {
@@ -11,25 +12,27 @@ const style = {
 	top: "50%",
 	left: "50%",
 	transform: "translate(-50%, -50%)",
-	textAlign: "center",
 	width: 600,
 	bgcolor: "background.paper",
 	boxShadow: 24,
 	p: 4,
-	borderRadius: 5
+	borderRadius: 5,
+	display:"flex",
+	flexDirection:"column",
+	alignItems:"center",
 };
 export default function CreateActivityModal({ open, handleClose }) {
 	const [files, setFiles] = useState([]);
 	const [title, setTitle] = useState("");
 	const urls = files.map((file) => URL.createObjectURL(file));
 	return (
-		<Modal open={open} onClose={handleClose}>
+		<Modal open={open} onClose={handleClose} >
 			<Box sx={style}>
 				<Typography
 					id="modal-modal-title"
 					variant="h6"
 					component="h2"
-					sx={{ marginBottom: "20px" }}
+					sx={{ marginBottom: "20px", fontWeight:"bold" }}
 					className="font-bold"
 				>
 					Create Diary
@@ -39,21 +42,14 @@ export default function CreateActivityModal({ open, handleClose }) {
 					sx={{ marginBottom: "20px" }}
 				>
 					{files.length > 0 ? (
-						<Diary image={urls[0]} name={title} />
+						<Diary image={urls[0]} name={title} marginLeft="0rem"/>
 					) : (
-						<Button
-							variant="contained"
-							component="label"
-							sx={{ marginBottom: "20px" }}
-							className="w-diary"
-						>
-							Upload Image
-							<ImageFileInput
-								onFilesChange={(selectedFilies) =>
-									setFiles(selectedFilies)
-								}
-							/>
-						</Button>
+						<ImageFileInput
+							onFilesChange={(selectedFilies) =>
+								setFiles(selectedFilies)
+							}
+							text="Upload Image"
+						/>
 					)}
 					<Input
 						value={title}
@@ -61,8 +57,9 @@ export default function CreateActivityModal({ open, handleClose }) {
 							setTitle(e.target.value);
 						}}
 						placeholder={"Enter title of your diary"}
-						sx={{ marginBottom: "20px", marginTop: "20px" }}
+						sx={{ marginBottom: "20px", marginTop: "20px", border : "1px solid black", padding : "0.2rem 0.5rem", borderRadius:"0.5rem" }}
 						className="w-diary"
+						disableUnderline="true"
 					/>
 					<div
 						className="d-flex justify-content-center align-items-center"
@@ -75,7 +72,7 @@ export default function CreateActivityModal({ open, handleClose }) {
 								sx={{ marginRight: "20px" }}
 							>
 								Change Image
-								<ImageFileInput
+								<ImageInput
 									onFilesChange={(selectedFilies) =>
 										setFiles(selectedFilies)
 									}
@@ -84,7 +81,6 @@ export default function CreateActivityModal({ open, handleClose }) {
 						) : null}
 						<Button
 							variant="contained"
-							endIcon={<SendIcon />}
 							sx={{ marginLeft: "20px" }}
 						>
 							Create

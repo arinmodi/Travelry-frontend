@@ -1,0 +1,14 @@
+.member-container {
+    margin-top: 2rem;
+    margin-left: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.profile-image {
+    border-radius:2.2rem; 
+    border : 1px solid black;
+    height: 2.2rem;
+    width: 2.2rem;
+    object-fit: cover;
+}

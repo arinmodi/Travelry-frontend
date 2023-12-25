@@ -10,8 +10,9 @@ const LoggedInHeader = () => {
                     height="30rem"
                     width="30rem"
                     style={{ borderRadius : "30rem", border : "1px solid black" }} 
+                    alt="logo"
                 />
-                <p className="ml-5 text-[color:blue]">Travelry</p>
+                <p className="ml-5 text-[color:#3A60F7] font-bold">Travelry</p>
             </div>
 
             <div className="flex flex-row">
@@ -21,7 +22,7 @@ const LoggedInHeader = () => {
                     className="p-2 text-sm border rounded-md w-small-input"
                 />
 
-                <FaSearch className="text-[white] h-full ml-5 bg-[blue] w-small-con pl-2 pr-2 border rounded-md hover:cursor-pointer" />
+                <FaSearch className="text-[white] h-full ml-5 bg-[#3A60F7] w-small-con pl-2 pr-2 border rounded-md hover:cursor-pointer" />
             </div>
         </div>
     )

@@ -8,7 +8,7 @@ import React, { useState } from "react";
 const HomePage = () => {
 	const [showModal, setShowModal] = useState(false);
 	return (
-		<div className="h-screen pl-10 pr-10 pt-5 bg-[#F5F5F5]">
+		<div className="flex flex-col h-screen pl-10 pr-10 bg-[#F5F5F5]">
 			<LoggedInHeader />
 
 			<div className="mt-10 flex">
