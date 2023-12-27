@@ -1,0 +1,61 @@
+.message-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0rem 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.message-container-self {
+    display: flex;
+    flex-direction: column;
+    margin: 0rem 2rem;
+    align-items: flex-end;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.user-container {
+    display: flex;
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+
+.user-image {
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 1.5rem;
+    border: 1px solid black;
+}
+
+.msg-username {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+.message {
+    background-color: rgb(236, 236, 236);
+    padding: 0.5rem 1rem;
+    width: fit-content;
+    border-radius: 0.5rem;
+}
+
+.message-content {
+    font-size: 1rem;
+    font-weight: 500;
+    color: black;
+}
+
+.message-self {
+    background-color: #3A60F7;
+    padding: 0.5rem 1rem;
+    width: fit-content;
+    border-radius: 0.5rem;
+}
+
+.message-content-self {
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+}

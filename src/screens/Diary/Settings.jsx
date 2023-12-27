@@ -79,7 +79,10 @@ const Settings = ({ close }) => {
                         <input
                             type='color'
                             value={color}
-                            onChange={(event) => setColor(event.target.value)}
+                            onChange={(event) => { 
+                                setImages([]);
+                                setColor(event.target.value) 
+                            }}
                             className='color-input'
                         />
                         <p style={{ margin:"0rem 2rem", fontWeight : "bold" }}>or</p>

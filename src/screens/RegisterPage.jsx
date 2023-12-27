@@ -61,21 +61,21 @@ const RegisterPage = () => {
                         <input 
                             type="text"
                             placeholder="UserName"
-                            className="mt-5 p-2 text-sm border rounded-md w-input"
+                            className="mt-3 p-2 text-sm border rounded-md w-input"
                             onChange={ e => setUserName(e.target.value)}
                         />
                         <br/>
                         <input 
                             type="password"
                             placeholder="Password"
-                            className="mt-5 p-2 text-sm border rounded-md w-input"
+                            className="mt-3 p-2 text-sm border rounded-md w-input"
                             onChange={ e => setPassword(e.target.value)}
                         />
                         <br/>
                         <input 
                             type="password"
                             placeholder="Confirm Password"
-                            className="mt-5 p-2 text-sm border rounded-md w-input"
+                            className="mt-3 p-2 text-sm border rounded-md w-input"
                             onChange={ e => setConfirmPassword(e.target.value)}
                         />
                         <br/>
