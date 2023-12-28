@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaSearch  } from 'react-icons/fa';
+import { IoFilterSharp } from "react-icons/io5";
+import "./LoggedInHeader.css";
+import FilterItem from "./FilterItem";
 
-const LoggedInHeader = () => {
+const LoggedInHeader = ({ filter=false, isFilterModal=false, setIsFilterModal }) => {
+
+    const [filters, setFilters] = useState([
+        { id : 0, name : "Title", checked : true },
+        { id : 1, name : "Updated", checked : false },
+        { id : 2, name : "Created", checked : false }
+    ]);
+
+    const setChecked = (id) => {
+        const newFilters = [...filters];
+        newFilters[id].checked = !newFilters[id].checked;
+        setFilters(newFilters)
+    }
+
     return (
         <div className="mt-5 flex flex-row justify-between">
             <div className="items-center flex flex-row">
@@ -16,6 +32,29 @@ const LoggedInHeader = () => {
             </div>
 
             <div className="flex flex-row">
+                {filter && (
+                    <div className="filter-container" onClick={() => {
+                        setIsFilterModal(!isFilterModal);
+                    }}>
+                        <IoFilterSharp className="text-[black] h-full"/>
+                    </div>
+                )}
+
+                
+                {isFilterModal && (
+                    <div className="filter-modal">
+                        <p className="filter-title">Filters:</p>
+
+                        {filters.map((item) => (
+                            <FilterItem 
+                                checked={item.checked}
+                                name={item.name}
+                                setChecked={() => setChecked(item.id)}
+                            />
+                        ))}
+                    </div>
+                )}
+
                 <input
                     type="text"
                     placeholder="Search ..."

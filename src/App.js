@@ -9,6 +9,8 @@ import { ToastContainer } from "react-toastify";
 import VerifyEmailPage from "screens/VerifyEmailPage";
 import DiaryPage from "screens/Diary/DiaryPage";
 import Media from "screens/Media";
+import DiarysPage from "screens/Diarys";
+import Profile from "screens/profile";
 
 const theme = createTheme({
   palette: {
@@ -31,6 +33,8 @@ function App() {
           <Route path="/verify" element={<VerifyEmailPage />} />
           <Route path="/diary" element={<DiaryPage />} />
           <Route path="/diary/medias" element={<Media />} />
+          <Route path="/diarys" element={<DiarysPage />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

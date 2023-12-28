@@ -12,7 +12,7 @@ const Diary = ({image, name, marginLeft="1rem"}) => {
                 }}
                 alt='diary'
             />
-            <div className="absolute top-0 left-0 w-full h-full flex bg-[black] opacity-40 rounded items-center justify-center">
+            <div className="absolute top-0 left-0 w-full h-full flex bg-[black] opacity-50 rounded items-center justify-center">
                 <p className='text-[white] font-bold'>{name}</p>
             </div>
         </div>
