@@ -1,4 +1,4 @@
-import { Box, Button, Modal, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Modal, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -20,6 +20,7 @@ const VerificationRequestModal = ({ open, handleClose, email }) => {
     const [title, setTitle] = useState("");
     const [message, setMessage] = useState("");
     const [isSent, sentIsSent] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setTitle("Email Verification Needed!");
@@ -28,20 +29,24 @@ const VerificationRequestModal = ({ open, handleClose, email }) => {
     }, []);
 
     const sendEmailVerification = async () => {
-        const data = {
-            email : email
-        }
-
-        try {
-            const response = await axios.post(BASE_API_URL+"/auth/email/sendVerification", data);
-            if (response.status === 200) {
-                setTitle("Email Sent!");
-                setMessage("Click on the verification link, sent over your email")
-                sentIsSent(true)
+        if (!isLoading) {
+            setIsLoading(true);
+            const data = {
+                email : email
             }
-        }catch(error) {
-            console.log(error);
-            toast("something bad happen!")
+
+            try {
+                const response = await axios.post(BASE_API_URL+"/auth/email/sendVerification", data);
+                if (response.status === 200) {
+                    setTitle("Email Sent!");
+                    setMessage("Click on the verification link, sent over your email")
+                    sentIsSent(true)
+                }
+            }catch(error) {
+                console.log(error);
+                toast("something bad happen!")
+            }
+            setIsLoading(false);
         }
     }
     
@@ -68,7 +73,7 @@ const VerificationRequestModal = ({ open, handleClose, email }) => {
                             sx={{ margin: "20px" }}
                             className="w-diary"
                             onClick={sendEmailVerification}
-                        >Send Email</Button>
+                        >{isLoading ? <CircularProgress size="24px" style={{ color : "white" }}/> : "Send Email"}</Button>
                     ):(
                         <img
                             style={{

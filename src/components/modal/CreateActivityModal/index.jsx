@@ -21,7 +21,7 @@ const style = {
 	flexDirection:"column",
 	alignItems:"center",
 };
-export default function CreateActivityModal({ open, handleClose }) {
+export default function CreateActivityModal({ open, handleClose, onCreate }) {
 	const [files, setFiles] = useState([]);
 	const [title, setTitle] = useState("");
 	const urls = files.map((file) => URL.createObjectURL(file));
@@ -82,6 +82,7 @@ export default function CreateActivityModal({ open, handleClose }) {
 						<Button
 							variant="contained"
 							sx={{ marginLeft: "20px" }}
+							onClick={() => onCreate(files, title)}
 						>
 							Create
 						</Button>

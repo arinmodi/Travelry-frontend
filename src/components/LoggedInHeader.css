@@ -23,3 +23,24 @@
 .filter-title {
     font-weight: bold;
 }
+
+.profile-photo-home {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 1rem;
+    margin-left: 1rem;
+    border: 1px solid black;
+}
+
+.profile-photo-home:hover {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 1.2rem;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.profile-photo-text {
+    color: white;
+    font-weight: bold;
+}

@@ -1,17 +1,22 @@
 import { Button } from "@mui/material";
 import axios from "axios";
 import Header from "components/Header";
+import LoadingModel from "components/modal/LoadingModal";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { BASE_API_URL } from "utils/constants";
 import { checkEmail, checkPassword, checkUserName } from "utils/helpers";
 
 const RegisterPage = () => {
 
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [UserName, setUserName] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async () => {
         if (!checkEmail(email)) {
@@ -23,6 +28,7 @@ const RegisterPage = () => {
         } else if (confirmPassword !== password) {
             toast("Confirm Password and Password not matching");
         } else {
+            setIsLoading(true);
             const data = {
                 email : email,
                 password : password, 
@@ -30,9 +36,12 @@ const RegisterPage = () => {
             }
 
             try {
-                const response = await axios.post(BASE_API_URL + "/auth/signup", data);
-                console.log(response)
+                await axios.post(BASE_API_URL + "/auth/signup", data);
+                setIsLoading(false);
+                toast("Registred Successfully...")
+                navigate("/");
             } catch (error) {
+                setIsLoading(false);
                 console.log(error)
                 toast(error.response.data.message)
             }
@@ -87,7 +96,7 @@ const RegisterPage = () => {
                         >
                             Register Now
                         </Button>
-                        <p className="mt-4">Already Have Travelry Account ? <a className="text-[color:blue]" href="">Login Here</a></p>
+                        <p className="mt-4">Already Have Travelry Account ? <a className="text-[color:blue]" href="/">Login Here</a></p>
                     </div>
                 </div>
 
@@ -99,6 +108,13 @@ const RegisterPage = () => {
                         className="max-w-full max-h-full"
                     />
                 </div>
+
+                {isLoading && (
+                    <LoadingModel 
+                        open={isLoading}
+                        message="saving"
+                    />
+                )}
 
             </div>
         </div>

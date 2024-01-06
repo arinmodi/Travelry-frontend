@@ -1,0 +1,10 @@
+.home-more-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.home-more {
+    font-weight: bold;
+}

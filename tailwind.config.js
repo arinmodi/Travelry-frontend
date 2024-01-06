@@ -12,12 +12,18 @@ module.exports = {
         'input' : '325px',
         'small-input' : '250px',
         'small-con' : '30px',
-        'diary' : '300px'
+        'diary' : '300px',
+        'more': '180px',
+        'diary-skeleton' : '320px'
       },
       height:{
         'diary' : '200px',
         'icon' : '30px'
-      }
+      },
+      gradientColorStops: theme => ({
+        'from':"#000099",
+        'to':"#99ccff"
+      })
     },
   },
   plugins: [],
