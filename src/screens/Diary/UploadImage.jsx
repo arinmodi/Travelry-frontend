@@ -8,7 +8,7 @@ import { AiTwotoneFolderAdd } from "react-icons/ai";
 import ImageInput from "components/ImageInput/ImageInput";
 
 
-const UploadImage = ({ close }) => {
+const UploadImage = ({ close, upload }) => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [data, setData] = useState([]);
 
@@ -89,35 +89,33 @@ const UploadImage = ({ close }) => {
                         data.length > 0 && (
                             <div>
                                 <ImageList sx={{ width: "90%", height: "90%", marginLeft : "2rem", marginTop : "2rem" }} cols={2} gap={5}>
-                                    {data.map((item, index) => (
-                                        <>
-                                            <ImageListItem key={index}>
-                                                <div className="image-container">
-                                                    {item.isVideo ? (
-                                                        <>
-                                                            <video
-                                                                src={item.url}
-                                                                controls
-                                                                className="image-style" 
-                                                            />
-                                                        </>
-                                                    ):(
-                                                        <img src={`${item.url}`} loading="lazy" className="image-style" alt="main"/>
-                                                    )}
-                                                    <div className="overlay" onClick={() => overlayClicked(index)}>
-                                                        <AiTwotoneFolderAdd size="2rem"/>
-                                                        <p className="overlay-text">
-                                                            Change Media
-                                                        </p>
-                                                        <ImageInput
-                                                            inputRef={inputRef}
-                                                            onFilesChange={(file) => onFilesChange(file)}
-                                                            isVideo={true}
+                                    {data.map((item, key) => (
+                                        <ImageListItem key={key}>
+                                            <div className="image-container">
+                                                {item.isVideo ? (
+                                                    <>
+                                                        <video
+                                                            src={item.url}
+                                                            controls
+                                                            className="image-style" 
                                                         />
-                                                    </div>
+                                                    </>
+                                                ):(
+                                                    <img src={`${item.url}`} loading="lazy" className="image-style" alt="main"/>
+                                                )}
+                                                <div className="overlay" onClick={() => overlayClicked(key)}>
+                                                    <AiTwotoneFolderAdd size="2rem"/>
+                                                    <p className="overlay-text">
+                                                        Change Media
+                                                    </p>
+                                                    <ImageInput
+                                                        inputRef={inputRef}
+                                                        onFilesChange={(file) => onFilesChange(file)}
+                                                        isVideo={true}
+                                                    />
                                                 </div>
-                                            </ImageListItem>
-                                        </>
+                                            </div>
+                                        </ImageListItem>
                                     ))}
                                 </ImageList>
 
@@ -128,6 +126,7 @@ const UploadImage = ({ close }) => {
                                         marginLeft : "2rem",
                                         marginBottom:"2rem"
                                     }}
+                                    onClick={() => upload(selectedFiles)}
                                     variant="contained">
                                         Upload
                                 </Button>

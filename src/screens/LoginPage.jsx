@@ -9,12 +9,11 @@ import { BASE_API_URL } from "utils/constants";
 import { checkEmail } from "utils/helpers";
 import { useDispatch } from "react-redux";
 import { setLogin } from "state/authSlice";
-import { useNavigate } from "react-router";
+import styles from "./LoginPage.module.css";
 
 const LoginPage = () => {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -65,17 +64,18 @@ const LoginPage = () => {
 
             <Header />
 
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col-reverse md:flex-row" style={{ marginTop:"8rem" }}>
 
-                <div className="md:flex-1 h-screeen flex items-center justify-center">
-                    <div>
+                <div className={`md:flex-1 flex items-center justify-center ${styles.customMargin}`}>
+
+                    <div className="w-input" style={{ maxWidth:"400px" }}>
                         <h2 className="font-bold text-black text-center">LOGIN</h2>
                         <h2 className="mt-2 text-center">how to get started with Travelry ?</h2>
 
                         <input 
                             type="text"
                             placeholder="Email"
-                            className="mt-5 p-2 text-sm border rounded-md w-input"
+                            className="mt-5 p-2 text-sm border rounded-md w-full"
                             value={email}
                             onChange={ e => setEmail(e.target.value)}
                         />
@@ -84,7 +84,7 @@ const LoginPage = () => {
                             type="password"
                             value={password}
                             placeholder="Password"
-                            className="mt-3 p-2 text-sm border rounded-md w-input"
+                            className="mt-3 p-2 text-sm border rounded-md w-full"
                             onChange={ e => setPassword(e.target.value)}
                         />
 
@@ -93,19 +93,19 @@ const LoginPage = () => {
                             variant="contained"
                             sx={{ marginTop : "30px" }}
                             onClick={handleSubmit}
-                            className="w-input"
+                            className="w-full"
                         >                            
                             Login Now
                         </Button>
                         <p className="mt-4">Don't Have Travelry Account ? <a className="text-[color:blue]" href="/register">Create Here</a></p>
                     </div>
-                </div>
+                </div>      
 
-                <div className="md:flex-1 h-screen flex items-center justify-center">
+                <div className="md:flex-1 flex items-center justify-center">
                     <img
                         src={require("../assets/loginPageillu.png")}
-                        alt="Your Image"
-                        className="max-w-full max-h-full"
+                        alt="Your"
+                        style={{ objectFit:"contain", height:"20rem", width:"30rem" }}
                     />
                 </div>
 

@@ -67,3 +67,20 @@
 .comments::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
 }
+
+.info-container {
+    position: absolute;
+    margin-top: 1rem;
+    left: 57%;
+}
+
+.info-icon {
+    color: #2590BB;
+    font-size: 1.4rem;
+}
+
+.info-icon:hover {
+    color: #085af1;
+    font-size: 1.4rem;
+    cursor: pointer;
+}

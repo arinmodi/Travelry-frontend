@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./index.css";
 import Header from 'components/Header';
 import { MdEmail } from "react-icons/md";
@@ -7,21 +7,128 @@ import { Button } from '@mui/material';
 import ImageInput from 'components/ImageInput/ImageInput';
 import DiaryGrid from 'components/DiaryGrid';
 import Activity from 'components/Activity';
+import { useDispatch, useSelector } from 'react-redux';
+import { BASE_API_URL } from 'utils/constants';
+import axios from "config/axiosInstance";
+import DiarySkeleton from 'components/loading/DiarySkeleton';
+import ActivitySkeleton from 'components/loading/ActivitySkeleton';
+import { toast } from 'react-toastify';
+import axiosMultipart from "config/axiosMulipartInstance";
+import LoadingModel from 'components/modal/LoadingModal';
+import { setUser, setLogout } from 'state/authSlice';
+import NoData from 'components/noData';
 
 const Profile = () => {
 
+    const user = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+
+    const [isDiaryLoading, setIsDiaryLoading] = useState(false);
+    const [diary, setDiary] = useState([]);
+    const [isMoreDiary, setIsMoreDiary] = useState(false);
+
+    
+    const [isActivityLoading, setIsActivityLoading] = useState(false);
+    const [activity, setActivity] = useState([]);
+    const [isMoreActivity, setIsMoreActivity] = useState(false);
+
     const [isUpdateProfile, setIsUpdateProfile] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    const [name, setName] = useState(user.userName);
 
     const [files, setFiles] = useState([]);
 	const urls = files.map((file) => URL.createObjectURL(file));
 
-    const dummyData = [
-        { url : "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z29hfGVufDB8fDB8fHww", title : "Goa" },
-        { url : "https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg?auto=compress&cs=tinysrgb&w=600", title : "Maldivs" },
-    ]
+    const updateProfile = async () => {
+        if (name === user.userName && files.length === 0) {
+            setIsUpdateProfile(false);
+        }else {
+            if (name !== user.userName && name.trim().length <= 1) {
+                toast("Enter valid name");
+            }else {
+                setIsUpdating(true);
+                try {
+                    const formData = new FormData();
+                    formData.append("username", name);
+                    if (files.length > 0) {
+                        formData.append("profileImage", files[0]);
+                    }
+                    const response = await axiosMultipart.patch(BASE_API_URL+"/user/", formData);
+                    const newUser = {
+                        email : user.email,
+                        profilePhoto : user.profilePhoto,
+                        userName : user.username
+                    }
+
+                    if (response.data.viewUrl !== null) {
+                        newUser.profilePhoto = response.data.viewUrl
+                    }
+
+                    newUser.userName = name;
+
+                    dispatch(
+                        setUser({
+                            user : newUser
+                        })
+                    )
+                    loadActivity();
+                }catch(error) {
+                    console.log(error);
+                }
+                setIsUpdating(false);
+                setIsUpdateProfile(false);
+            }
+        }
+    }
+
+    const loadDiary = async () => {
+        setIsDiaryLoading(true);
+        try {
+			const diaryResponse = await axios.get(BASE_API_URL+"/user/diary?sort=-1&limit=3&offset=0");
+            if (diaryResponse.data.length > 2) {
+                setIsMoreDiary(true);
+                const data = []
+                for (let i=0; i < 2; i++) {
+                    data.push(diaryResponse.data[i]);
+                }
+                setDiary(data)
+            } else {
+			    setDiary(diaryResponse.data);
+            }
+		} catch(error) {
+			console.log(error);
+		}
+        setIsDiaryLoading(false);
+    }
+
+    const loadActivity = async () => {
+        setIsActivityLoading(true);
+		try {
+			const response = await axios.get(BASE_API_URL+"/user/activities?sort=-1&limit=4&offset=0");
+			if (response.data.length > 3) {
+				setIsMoreActivity(true);
+				const data = [];
+				for (let i=0; i < 3; i++) {
+					data.push(response.data[i]);
+				}
+                setActivity(data);
+			} else {
+				setActivity(response.data);
+			}
+		} catch(error) {
+			console.log(error);
+		}
+		setIsActivityLoading(false);
+    }
+
+    useEffect(() => {
+        loadDiary();
+        loadActivity();
+    }, [])
 
     return (
-        <div className="flex h-screen pl-10 pr-10 bg-[#F5F5F5]">
+        <div className="flex min-h-screen pl-10 pr-10 bg-[#F5F5F5]">
             
             <div className='profile-container'>
                 <div className='profile-sub-container'>
@@ -33,12 +140,12 @@ const Profile = () => {
                         <div>
                             <div className='profile-text-container'>
                                 <MdEmail className='icon' />
-                                <p className='profile-text'>arinmodi2306@gmail.com</p>
+                                <p className='profile-text'>{user.email}</p>
                             </div>
 
                             <div className='profile-text-container'>
                                 <FaUser className='icon' />
-                                <p className='profile-text'>Arin Modi</p>
+                                <p className='profile-text'>{user.userName}</p>
                             </div>
 
                             {!isUpdateProfile && (
@@ -51,14 +158,20 @@ const Profile = () => {
                                 </Button>
                             )}
                         </div>
-
-                        <div>
-                            <img 
-                                src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHx8MA%3D%3D'
-                                className='profile-user-img'
-                                alt='profile'
-                            />
-                        </div>
+                        
+                        {user.profilePhoto ? (
+                            <div>
+                                <img 
+                                    src={user.profilePhoto}
+                                    className='profile-user-img'
+                                    alt='profile'
+                                />
+                            </div>
+                        ):(
+                            <div className='profile-user-img' style={{ display:"flex", justifyContent:"center", alignItems:"center", backgroundColor:"#3A60F7" }}>
+                                <p className='text-[white] font-bold text-4xl' >{user.userName[0]}</p>
+                            </div>
+                        )}
 
                     </div>
 
@@ -75,13 +188,15 @@ const Profile = () => {
                                         <input
                                             className='user-name-input'
                                             type='text'
-                                            value="Arin Modi" />
+                                            value={name}
+                                            onChange={(event) => setName(event.target.value)} />
                                     </div>
         
                                     <div className='profile-text-container'>
                                         <Button
                                             variant='contained'
                                             style={{ marginTop:"1rem" }}
+                                            onClick={updateProfile}
                                         >
                                             SAVE
                                         </Button>
@@ -98,11 +213,27 @@ const Profile = () => {
                                 </div>
         
                                 <div style={{ alignItems:"center", display:"flex", flexDirection:"column" }}>
-                                    <img 
-                                        src={ files.length === 0 ? 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHx8MA%3D%3D':urls[0] }
-                                        className='profile-user-img'
-                                        alt='profile'
-                                    />
+                                    {files.length === 0 ? (
+                                        user.profilePhoto ? (
+                                            <div>
+                                                <img 
+                                                    src={user.profilePhoto}
+                                                    className='profile-user-img'
+                                                    alt='profile'
+                                                />
+                                            </div>
+                                        ):(
+                                            <div className='profile-user-img' style={{ display:"flex", justifyContent:"center", alignItems:"center", backgroundColor:"#3A60F7" }}>
+                                                <p className='text-[white] font-bold text-4xl' >{user.userName[0]}</p>
+                                            </div>
+                                        )
+                                    ):(
+                                        <img 
+                                            src={urls[0]}
+                                            className='profile-user-img'
+                                            alt='profile'
+                                        />
+                                    )}
 
                                     <Button
                                         variant='outlined'
@@ -128,23 +259,71 @@ const Profile = () => {
             </div>
 
             <div className='profile-main-container'>
-                <p className='inner-title'>Your Diaries</p>
+                <div className='flex justify-between'>
+                    <p className='inner-title'>Your Diaries</p>
+                    <div className="close" style={{ width:"fit-content", marginTop:"1.7rem" }} onClick={() => {
+                        toast("logged out")
+                        dispatch(
+                            setLogout()
+                        )
+                    }}>
+                        LOGOUT
+                    </div>
+                </div>
                 
                 <div style={{ marginLeft:"1rem", marginTop : "1rem" }}>
-                    <DiaryGrid
-                        itemData={dummyData}
-                        cols={2}
-                    />
+                    {!isDiaryLoading ? (
+                        diary.length > 0 ? (
+                            <DiaryGrid
+                                itemData={diary}
+                                cols={2}
+                            />
+                        ):(
+                            <NoData message="No Diary Found" />
+                        )
+                    ):(
+                        <div className='flex' style={{ marginLeft:"-2rem" }}>
+                            <DiarySkeleton amount={2} />
+                        </div>
+                    )}
                 </div>
 
-                <div style={{ display:'flex', justifyContent:"center", marginTop:"2rem" }}>
-                    <p className='load-more'>Load more</p>
-                </div>
+                {isMoreDiary ?( 
+                    <div style={{ display:'flex', justifyContent:"center", marginTop:"2rem" }}>
+                        <p className='load-more'>more</p>
+                    </div>
+                ):(
+                    <div className='mt-5'></div>
+                )}
 
                 <div className="profile-activities-activity">
 				    <p className="font-bold">Activities</p>
 				    <p className="mt-3"></p>
-				    <Activity />
+                    {!isActivityLoading ? (
+                        activity.length > 0 ? (
+                            activity.map((item, key) => (
+                                <Activity 
+                                    item={item}
+                                    key={key}
+                                />
+                            ))  
+                        ):(
+                            <NoData message="No Activity Found" />
+                        )  
+                    ):(
+                        <ActivitySkeleton amount={3} />
+                    )}
+
+                    {isMoreActivity && (
+                        <div style={{ display:'flex', justifyContent:"center", marginTop:"2rem" }}>
+                            <p className='load-more'>more</p>
+                        </div>
+                    )}
+
+                    <LoadingModel 
+                        open={isUpdating}
+                        message='Updating'
+                    />
 			    </div>
             </div>
 

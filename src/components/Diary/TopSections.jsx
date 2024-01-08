@@ -10,18 +10,18 @@ const TopSection = ({ height="10rem", marginRight="0rem", title, fontSize="1.3re
                 marginRight:marginRight,
             }}
         >
-            <Box
-                sx={{
-                    display:"flex",
-                    height:"100%",
-                    width:"100%",
-                    backgroundColor:"black",
-                    alignItems:"center",
-                    justifyContent:"center",
-                    opacity:"70%"
-                }}
-            >
-                {image && (
+            {image ? (
+                <Box
+                    sx={{
+                        display:"flex",
+                        height:"100%",
+                        width:"100%",
+                        backgroundColor:"black",
+                        alignItems:"center",
+                        justifyContent:"center",
+                        opacity:"70%"
+                    }}
+                >
                     <img
                         src={image}
                         style={{
@@ -31,18 +31,41 @@ const TopSection = ({ height="10rem", marginRight="0rem", title, fontSize="1.3re
                         }}
                         alt='cover'
                     />
-                )}
-                <Typography
+                    
+                    <Typography
+                        sx={{
+                            fontWeight:"bold",
+                            color:"white",
+                            fontSize:fontSize,
+                            position:"absolute"
+                        }}
+                    >
+                        {title}
+                    </Typography>
+                </Box>
+            ):(
+                <Box
                     sx={{
-                        fontWeight:"bold",
-                        color:"white",
-                        fontSize:fontSize,
-                        position:"absolute"
+                        display:"flex",
+                        height:"100%",
+                        width:"100%",
+                        alignItems:"center",
+                        justifyContent:"center",
                     }}
                 >
-                    {title}
-                </Typography>
-            </Box>
+                    
+                    <Typography
+                        sx={{
+                            fontWeight:"bold",
+                            color:"white",
+                            fontSize:fontSize,
+                            position:"absolute"
+                        }}
+                    >
+                        {title}
+                    </Typography>
+                </Box>
+            )}
         </Box>
     )
 }

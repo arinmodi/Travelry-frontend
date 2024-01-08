@@ -28,6 +28,17 @@
     border: 1px solid black;
 }
 
+.user-avatar {
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 1.5rem;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3A60F7;
+}
+
 .msg-username {
     font-size: 0.8rem;
     font-weight: bold;
@@ -58,4 +69,20 @@
     font-size: 1rem;
     font-weight: 500;
     color: rgb(255, 255, 255);
+}
+
+.time {
+    margin-left: 0.3rem;
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+    color: black;
+}
+
+.date-container {
+    background-color: rgb(236, 236, 236);
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    width: fit-content;
+    border-radius: 0.5rem;
+    margin: 2rem auto;
 }

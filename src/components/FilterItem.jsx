@@ -5,7 +5,8 @@ const FilterItem = ({ checked, name, setChecked }) => {
         <div style={{ marginTop : "1rem", marginRight : "1rem", marginBottom:"0.5rem" }}>
             <label>
                 <input 
-                    type="checkbox"
+                    type="radio"
+                    name="sort"
                     style={{ marginRight : "1rem" }}
                     checked={checked}
                     onChange={setChecked} />

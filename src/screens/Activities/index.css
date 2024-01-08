@@ -1,0 +1,17 @@
+.diary-grid-container {
+    margin-top: 1rem;
+    margin-left: -1rem;
+}
+
+.load-more {
+    align-self: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: #3A60F7;
+    font-weight: bold;
+}
+
+.load-more:hover {
+    color: #05239a;
+    cursor: pointer;
+}

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { BASE_API_URL } from "utils/constants";
 import { checkEmail, checkPassword, checkUserName } from "utils/helpers";
+import styles from "./LoginPage.module.css";
 
 const RegisterPage = () => {
 
@@ -53,38 +54,38 @@ const RegisterPage = () => {
 
             <Header />
 
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col-reverse md:flex-row">
 
-                <div className="md:flex-1 h-screeen flex items-center justify-center">
-                    <div>
+                <div className={`md:flex-1 flex items-center justify-center ${styles.customMargin}`}>
+                    <div style={{ maxWidth:"400px" }}>
                         <h2 className="font-bold text-black text-center">Create Account</h2>
                         <h2 className="mt-2 text-center">Get Started with Travelry</h2>
 
                         <input 
                             type="text"
                             placeholder="Email"
-                            className="mt-5 p-2 text-sm border rounded-md w-input"
+                            className="mt-5 p-2 text-sm border rounded-md w-full"
                             onChange={ e => setEmail(e.target.value)}
                         />
                         <br/>
                         <input 
                             type="text"
                             placeholder="UserName"
-                            className="mt-3 p-2 text-sm border rounded-md w-input"
+                            className="mt-3 p-2 text-sm border rounded-md w-full"
                             onChange={ e => setUserName(e.target.value)}
                         />
                         <br/>
                         <input 
                             type="password"
                             placeholder="Password"
-                            className="mt-3 p-2 text-sm border rounded-md w-input"
+                            className="mt-3 p-2 text-sm border rounded-md w-full"
                             onChange={ e => setPassword(e.target.value)}
                         />
                         <br/>
                         <input 
                             type="password"
                             placeholder="Confirm Password"
-                            className="mt-3 p-2 text-sm border rounded-md w-input"
+                            className="mt-3 p-2 text-sm border rounded-md w-full"
                             onChange={ e => setConfirmPassword(e.target.value)}
                         />
                         <br/>
@@ -92,7 +93,7 @@ const RegisterPage = () => {
                             variant="contained"
                             sx={{ marginTop : "30px" }}
                             onClick={handleSubmit}
-                            className="w-input"
+                            className="w-full"
                         >
                             Register Now
                         </Button>
@@ -101,11 +102,11 @@ const RegisterPage = () => {
                 </div>
 
                                 
-                <div className="md:flex-1 h-screen flex items-center justify-center">
+                <div className="md:flex-1 flex items-center justify-center">
                     <img
                         src={require("../assets/registerPageillu.png")}
                         alt="Your Image"
-                        className="max-w-full max-h-full"
+                        style={{ objectFit:"contain", height:"35rem", width:"50rem" }}
                     />
                 </div>
 

@@ -12,6 +12,7 @@ import Media from "screens/Media";
 import DiarysPage from "screens/Diarys";
 import Profile from "screens/profile";
 import { useSelector } from "react-redux";
+import ActivitiesPage from "screens/Activities";
 
 
 const theme = createTheme({
@@ -36,10 +37,11 @@ function App() {
           <Route path="/register" element={isAuth ? <Navigate to="/home" /> : <RegisterPage />} />
           <Route path="/home" element={isAuth ? <HomePage /> : <Navigate to="/" />} />
           <Route path="/verify" element={isAuth ? <Navigate to="/home" /> : <VerifyEmailPage />} />
-          <Route path="/diary" element={isAuth ? <DiaryPage /> : <Navigate to="/" />} />
-          <Route path="/diary/medias" element={isAuth ? <Media /> : <Navigate to="/" />} />
+          <Route path="/diary/:id" element={isAuth ? <DiaryPage /> : <Navigate to="/" />} />
+          <Route path="/diary/:id/media/:mid" element={isAuth ? <Media /> : <Navigate to="/" />} />
           <Route path="/diarys" element={isAuth ? <DiarysPage />: <Navigate to="/" />} />
           <Route path="/profile" element={isAuth ? <Profile /> : <Navigate to="/" />} />
+          <Route path="/activities" element={isAuth ? <ActivitiesPage /> : <Navigate to="/" />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

@@ -6,14 +6,15 @@ import ImageInput from 'components/ImageInput/ImageInput';
 import { Button } from '@mui/material';
 import TopSection from 'components/Diary/TopSections';
 
-const Settings = ({ close }) => {
+const Settings = ({ close, diary, update }) => {
 
-    const [diaryName, setDiaryName] = useState("Goa");
-    const [color, setColor] = useState("#028C45");
+    const [diaryName, setDiaryName] = useState(diary.name);
+    const [color, setColor] = useState(diary.headerColor);
     const [files, setFiles] = useState([]);
 	const urls = files.map((file) => URL.createObjectURL(file));
     const [images, setImages] = useState([]);
     const imgUrls = images.map((img) => URL.createObjectURL(img));
+    const [iniitalUrl, setInitialUrl] = useState(diary.headerImage);
 
     return (
         <>
@@ -40,7 +41,7 @@ const Settings = ({ close }) => {
 
                     <div className='cover-container'>
                         <Diary 
-                            image={urls.length > 0 ? urls[0] : "https://cloudfront-us-east-2.images.arcpublishing.com/reuters/KFVXH4V6SBMMFN56YXWCW7ZNPU.jpg"} 
+                            image={urls.length > 0 ? urls[0] : diary.coverImage} 
                             name={diaryName} 
                             marginLeft="0rem"
                         />
@@ -69,8 +70,9 @@ const Settings = ({ close }) => {
                             height='5rem' 
                             marginRight='2rem' 
                             title={diaryName} 
-                            fontSize='1rem' color={color} 
-                            image={imgUrls[0]}
+                            fontSize='1rem' 
+                            color={color} 
+                            image={images.length === 0 ? iniitalUrl : imgUrls[0]}
                         />
                     </div>
                     
@@ -80,6 +82,7 @@ const Settings = ({ close }) => {
                             type='color'
                             value={color}
                             onChange={(event) => { 
+                                setInitialUrl(null);
                                 setImages([]);
                                 setColor(event.target.value) 
                             }}
@@ -108,6 +111,7 @@ const Settings = ({ close }) => {
                             sx={{
                                 width:"100%"
                             }}
+                            onClick={() => update(diaryName, color, files, images)}
                         >
                             Save
                         </Button>

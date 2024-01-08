@@ -13,6 +13,10 @@ import ActivitySkeleton from "components/loading/ActivitySkeleton";
 import LoadingModel from "components/modal/LoadingModal";
 import { toast } from "react-toastify";
 import { getRandomDarkColor } from "utils/helpers";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { setDiary as setDiaryState } from "state/authSlice";
+import NoData from "components/noData";
 
 const HomePage = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -24,7 +28,11 @@ const HomePage = () => {
 	const [activity, setActivity] = useState([]);
 	const [isMoreActivity, setIsMoreActivity] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
+	const [searchText, setSearchText] = useState("");
 
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	
 	const getMyDiary = async () => {
 		setIsLoading(true);
 		try {
@@ -60,6 +68,7 @@ const HomePage = () => {
 				for (let i=0; i <= 4; i++) {
 					data.push(response.data[i]);
 				}
+				setActivity(data);
 			} else {
 				setActivity(response.data);
 			}
@@ -70,14 +79,13 @@ const HomePage = () => {
 	}
 	
 	useEffect(() => {
+		const homePageLoad = () => {
+			getMyDiary();
+			getIsMore();
+			getActivities();
+		}
 		homePageLoad();
 	}, []);
-
-	const homePageLoad = () => {
-		getMyDiary();
-		getIsMore();
-		getActivities();
-	}
 
 	const verifyDiaryInputs = (files, title) => {
 		if (files.length <= 0) {
@@ -101,17 +109,45 @@ const HomePage = () => {
 			const response = await axiosMultipart.post(BASE_API_URL+"/diary/", formData);
 			console.log(response.data);
 			getMyDiary();
+			getIsMore();
 		}catch(error) {
 			console.log(error);
 		}
 		setIsUploading(false);
 	}
 
-	return (
-		<div className="flex flex-col h-screen bg-[#F5F5F5]">
-			<LoggedInHeader isUserProfile={true} isHome={true}/>
+	const onDiaryClick = (id, diary) => {
+		dispatch(
+			setDiaryState({
+				diary : diary
+			})
+		)
+		navigate(`/diary/${id}`);
+	}
 
-			<div className="mt-10 flex pl-10 pr-10">
+	const onMoreClick = () => {
+		navigate("/diarys")
+	}
+
+	const onMoreActivityClick = () => {
+		navigate("/activities")
+	}
+
+	return (
+		<div className="flex flex-col bg-[#F5F5F5] min-h-screen">
+			<LoggedInHeader 
+				isUserProfile={true} 
+				isHeaderColor={true} 
+				searchText={searchText} 
+				setSearchText={(text) => setSearchText(text)} 
+				onSearch={() => { 
+					if (searchText.trim().length !== 0) {
+						navigate("/diarys", { state : searchText })
+					}
+				}}
+			/>
+
+			<div className="mt-10 flex pl-10 pr-10" style={{ overflowX:"auto" }}>
 				<CreateDiary onCreateDiary={() => {
                     setShowModal(true)
                 }} />
@@ -124,16 +160,25 @@ const HomePage = () => {
 
 				{!isLoading ? (
 					<div className="flex">
-						{diary.map((item, key) => (
-							<Diary 
-								image={item.coverImage}
-								name={item.name}
-								marginLeft="2rem"
-							/>
-						))}
+						{diary.length > 0 ? (
+							diary.map((item, key) => (
+								<Diary 
+									key={key}
+									image={item.coverImage}
+									name={item.name}
+									marginLeft="2rem"
+									onDiaryClick={() => onDiaryClick(item.id, item)}
+								/>
+							))
+						):(
+							<div style={{ display:"flex", alignItems:"center", justifyContent:"center", width:"40vw" }}>
+								<p className="font-bold text-[#8C8C8C]">No Diary Found</p>
+							</div>
+						)}
 
-						{(!isMoreLoading && isMore) && (
+						{(!isMoreLoading && isMore && diary.length > 0) && (
 							<div 
+								onClick={() => onMoreClick()}
 								className='w-more h-diary relative rounded-md bg-[white] shadow-md hover:cursor-pointer overflow-hidden' 
 								style={{ marginLeft : "2rem" }}
 							>
@@ -154,12 +199,16 @@ const HomePage = () => {
 
 				{!isActivityLoading ? (
 					<div>
-						{activity.map((item, key) => (
+						{activity.length > 0 && activity.map((item, key) => (
 							<Activity item={item} key={key}/>
 						))}
 
+						{activity.length === 0 && (
+							<NoData message={"No Activity Found"} />
+						)}
+
 						{isMoreActivity && (
-							<div className="flex mt-5 justify-center">
+							<div className="flex mt-5 mb-5 justify-center" onClick={onMoreActivityClick}>
 								<p className="text-[blue] font-bold hover:cursor-pointer">More</p>
 							</div>
 						)}

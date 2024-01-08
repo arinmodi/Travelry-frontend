@@ -1,9 +1,14 @@
 import Header from 'components/Header';
-import React from 'react';
+import React, { useState } from 'react';
 import "./AddMember.css";
 import Member from 'components/Diary/Member';
+import MemberSkeleton from 'components/loading/MemberSkeleton';
+import NoData from 'components/noData';
 
-const AddMember = ({ close }) => {
+const AddMember = ({ close, isMembersLoading, members, addMember }) => {
+
+    const [email, setEmail] = useState("");
+
     return (
         <>
             <div className="main-container">
@@ -22,29 +27,38 @@ const AddMember = ({ close }) => {
                             type='email'
                             className='email-input' 
                             placeholder='enter email'
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
                         />
 
-                        <div className='add-button'>
+                        <div className='add-button' onClick={() => addMember(email)}>
                             Add
                         </div>
                     </div>
 
                     <p className='inner-title'>Members</p>
 
-                    <Member 
-                        url={"https://imgv3.fotor.com/images/blog-cover-image/10-profile-picture-ideas-to-make-you-stand-out.jpg"}
-                        name={"Arin Modi"}
-                    />
+                    {!isMembersLoading ? (
+                        <>
+                            {members.map((item, key) => (
+                                <Member 
+                                    url={item.profilePhoto}
+                                    name={item.userName}
+                                />
+                            ))}
 
-                    <Member 
-                        url={"https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg"}
-                        name={"Devarsh Mavani"}
-                    />
+                            {members.length === 0 && (
+                                <NoData message="No Members Found" />
+                            )}
+                        </>
+                    ):(
+                        <div>
+                            <MemberSkeleton />
+                            <MemberSkeleton />
+                            <MemberSkeleton />
+                        </div>
+                    )}
 
-                    <Member 
-                        url={"https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg"}
-                        name={"Aster Andrew"}
-                    />
                 </div>
             </div>
         </>

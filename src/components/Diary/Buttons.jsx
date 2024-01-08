@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 import React from 'react';
 
-const Buttons = ({ uploadImageClick, addMemberClick, settingsClick }) => {
+const Buttons = ({ uploadImageClick, addMemberClick, settingsClick, activityClick }) => {
     return (
         <Box
             sx={{
@@ -53,6 +53,14 @@ const Buttons = ({ uploadImageClick, addMemberClick, settingsClick }) => {
                     }}
                     onClick={settingsClick}
                 >Settings</Button>
+
+                <Button
+                    variant="contained"
+                    sx={{
+                        marginLeft:"1rem"
+                    }}
+                    onClick={activityClick}
+                >Activities</Button>
             </Box>
 
         </Box>
