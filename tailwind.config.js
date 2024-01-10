@@ -9,7 +9,7 @@ module.exports = {
     },
     extend: {
       width:{
-        'input' : '50vw',
+        'input' : '80vw',
         'small-input' : '250px',
         'small-con' : '30px',
         'diary' : '300px',
@@ -20,7 +20,9 @@ module.exports = {
       height:{
         'diary' : '200px',
         'icon' : '30px',
-        'media-skeleton' : '15rem'
+        'media-skeleton' : '15rem',
+        'diary-sm' : "5rem",
+        'diary-md' : "7rem"
       },
       gradientColorStops: theme => ({
         'from':"#000099",

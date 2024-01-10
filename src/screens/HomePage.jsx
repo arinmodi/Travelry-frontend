@@ -29,6 +29,19 @@ const HomePage = () => {
 	const [isMoreActivity, setIsMoreActivity] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
 	const [searchText, setSearchText] = useState("");
+	const [isMobile, setIsMobile] = useState(window.innerWidth < 750);
+
+    useEffect(() => {
+        const handleResize = () => {
+           setIsMobile(window.innerWidth < 750);
+        };
+  
+        window.addEventListener("resize", handleResize);
+  
+        return () => {
+           window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -147,7 +160,7 @@ const HomePage = () => {
 				}}
 			/>
 
-			<div className="mt-10 flex pl-10 pr-10" style={{ overflowX:"auto" }}>
+			<div className="mt-10 flex flex-col md:flex-row pl-10 pr-10">
 				<CreateDiary onCreateDiary={() => {
                     setShowModal(true)
                 }} />
@@ -159,7 +172,7 @@ const HomePage = () => {
 				)}
 
 				{!isLoading ? (
-					<div className="flex">
+					<div className="flex flex-col md:flex-row">
 						{diary.length > 0 ? (
 							diary.map((item, key) => (
 								<Diary 
@@ -179,8 +192,8 @@ const HomePage = () => {
 						{(!isMoreLoading && isMore && diary.length > 0) && (
 							<div 
 								onClick={() => onMoreClick()}
-								className='w-more h-diary relative rounded-md bg-[white] shadow-md hover:cursor-pointer overflow-hidden' 
-								style={{ marginLeft : "2rem" }}
+								className='h-diary-md w-full md:w-more md:h-diary relative rounded-md bg-[white] shadow-md hover:cursor-pointer overflow-hidden' 
+								style={{ marginLeft : isMobile ? "0rem" : "2rem", marginTop : isMobile ? "1rem" : "0rem" }}
 							>
 								<div className="home-more-container">
 									<p className="home-more">more</p>

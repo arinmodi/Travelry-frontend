@@ -12,10 +12,10 @@ const style = {
 	top: "50%",
 	left: "50%",
 	transform: "translate(-50%, -50%)",
-	width: 600,
+	width: "fit-content",
 	bgcolor: "background.paper",
 	boxShadow: 24,
-	p: 4,
+	p: 3,
 	borderRadius: 5,
 	display:"flex",
 	flexDirection:"column",
@@ -26,7 +26,7 @@ export default function CreateActivityModal({ open, handleClose, onCreate }) {
 	const [title, setTitle] = useState("");
 	const urls = files.map((file) => URL.createObjectURL(file));
 	return (
-		<Modal open={open} onClose={handleClose} >
+		<Modal open={open} onClose={handleClose}>
 			<Box sx={style}>
 				<Typography
 					id="modal-modal-title"

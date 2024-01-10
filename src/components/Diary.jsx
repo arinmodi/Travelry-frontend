@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Diary = ({image, name, marginLeft="1rem", onDiaryClick}) => {
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 750);
+
+    useEffect(() => {
+        const handleResize = () => {
+           setIsMobile(window.innerWidth < 750);
+        };
+  
+        window.addEventListener("resize", handleResize);
+  
+        return () => {
+           window.removeEventListener("resize", handleResize);
+        };
+     }, []);
+
     return (
-        <div className='w-diary h-diary relative rounded-md bg-[white] shadow-md hover:cursor-pointer overflow-hidden' onClick={onDiaryClick} style={{ marginLeft : marginLeft }}>
+        <div className='h-diary-md w-full md:w-diary md:h-diary relative rounded-md bg-[white] shadow-md hover:cursor-pointer overflow-hidden' onClick={onDiaryClick} style={{ marginLeft : isMobile ? "0rem" : marginLeft, marginTop : isMobile ? "1rem" : "0rem" }}>
             <img
                 src={image}
                 style={{

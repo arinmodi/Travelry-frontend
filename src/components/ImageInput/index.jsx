@@ -20,7 +20,7 @@ const ImageFileInput = ({ text, onFilesChange, multiple=false, isVideo=false }) 
 				justifyContent:"center",
 				flexDirection:"column",
 			}}
-			className="w-diary bg-[#F5F5F5] hover:cursor-pointer hover:bg-[#FAFAFA]"
+			className="w-full bg-[#F5F5F5] hover:cursor-pointer hover:bg-[#FAFAFA]"
 			onClick={() => handleBoxClick()}
 		>
 				<IoMdAdd className="text-[blue] text-2xl" />

@@ -1,4 +1,4 @@
-.main-container {
+.mainContainer {
     position: fixed;
     height: 100%;
     width: 100%;
@@ -11,7 +11,6 @@
 
 .container {
     height: 100%;
-    width: fit-content;
     position: fixed;
     right: 0px;
     background-color: white;
@@ -37,19 +36,20 @@
     font-weight: bold;
 }
 
-.image-upload-container {
+.imageUploadContainer {
     margin-left: 2rem;
     margin-top: 2rem;
+    margin-right: 2rem;
 }
 
-.image-style {
+.imageStyle {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 0.5rem;
 }
 
-.image-container {
+.imageContainer {
 	position: relative;
 	overflow: hidden;
 	width: 100%;
@@ -72,7 +72,7 @@
     flex-direction: column;
 }
 
-.overlay-text {
+.overlayText {
     color: white;
     font-weight: bold;
     font-size: 0.8rem;
@@ -95,4 +95,10 @@
 .close:hover {
     background-color:rgb(245, 58, 58);
     cursor: pointer;
+}
+
+@media screen and (max-width: 750px) {
+    .container {
+        width: 100%;
+    }
 }

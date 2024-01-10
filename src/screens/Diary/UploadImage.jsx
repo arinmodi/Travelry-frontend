@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import "./UploadImage.css";
+import styles from "./UploadImage.module.css";
 import Header from "components/Header";
 import ImageFileInput from "components/ImageInput";
 import { toast } from "react-toastify";
@@ -8,7 +8,7 @@ import { AiTwotoneFolderAdd } from "react-icons/ai";
 import ImageInput from "components/ImageInput/ImageInput";
 
 
-const UploadImage = ({ close, upload }) => {
+const UploadImage = ({ close, upload, isMobile }) => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [data, setData] = useState([]);
 
@@ -68,44 +68,44 @@ const UploadImage = ({ close, upload }) => {
 
     return(
         <>
-            <div className="main-container">
-                <div className="container">
+            <div className={styles.mainContainer}>
+                <div className={styles.container}>
                     <Header />
 
                     <div className="flex justify-between">
-                        <p className="title">Upload Media</p>
-                        <div className="close" onClick={close}>
+                        <p className={styles.title}>Upload Media</p>
+                        <div className={styles.close} onClick={close}>
                             CLOSE
                         </div>
                     </div>
                     
                     {selectedFiles.length !== 4 && 
-                        <div className="image-upload-container">
+                        <div className={styles.imageUploadContainer}>
                             <ImageFileInput text={"Upload Media"} multiple={true} onFilesChange={fileSelection} isVideo={true}/>
                         </div>
                     }
 
                     {
                         data.length > 0 && (
-                            <div>
-                                <ImageList sx={{ width: "90%", height: "90%", marginLeft : "2rem", marginTop : "2rem" }} cols={2} gap={5}>
+                            <div style={{ marginRight:isMobile ? "2rem":"0rem" }}>
+                                <ImageList sx={{ width: "90%", height: "90%", marginLeft : "2rem", marginTop : "2rem" }} cols={isMobile ? 1 : 2} gap={5}>
                                     {data.map((item, key) => (
                                         <ImageListItem key={key}>
-                                            <div className="image-container">
+                                            <div className={styles.imageContainer}>
                                                 {item.isVideo ? (
                                                     <>
                                                         <video
                                                             src={item.url}
                                                             controls
-                                                            className="image-style" 
+                                                            className={styles.imageStyle} 
                                                         />
                                                     </>
                                                 ):(
-                                                    <img src={`${item.url}`} loading="lazy" className="image-style" alt="main"/>
+                                                    <img src={`${item.url}`} loading="lazy" className={styles.imageStyle} alt="main"/>
                                                 )}
-                                                <div className="overlay" onClick={() => overlayClicked(key)}>
+                                                <div className={styles.overlay} onClick={() => overlayClicked(key)}>
                                                     <AiTwotoneFolderAdd size="2rem"/>
-                                                    <p className="overlay-text">
+                                                    <p className={styles.overlayext}>
                                                         Change Media
                                                     </p>
                                                     <ImageInput

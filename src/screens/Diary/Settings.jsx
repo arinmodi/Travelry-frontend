@@ -5,8 +5,9 @@ import Diary from 'components/Diary';
 import ImageInput from 'components/ImageInput/ImageInput';
 import { Button } from '@mui/material';
 import TopSection from 'components/Diary/TopSections';
+import styles from "./UploadImage.module.css";
 
-const Settings = ({ close, diary, update }) => {
+const Settings = ({ close, diary, update, isMobile }) => {
 
     const [diaryName, setDiaryName] = useState(diary.name);
     const [color, setColor] = useState(diary.headerColor);
@@ -20,12 +21,12 @@ const Settings = ({ close, diary, update }) => {
         <>
             <div className="main-container">
 
-                <div className="container">
+                <div className="container" style={{ width:isMobile ? "100%" : "40vw" }}>
                     <Header />
 
                     <div className="flex justify-between">
-                        <p className="title">Settings</p>
-                        <div className="close" onClick={close}>
+                        <p className={styles.title}>Settings</p>
+                        <div className={styles.close} onClick={close}>
                             CLOSE
                         </div>
                     </div>

@@ -15,13 +15,16 @@ import ActivitySkeleton from 'components/loading/ActivitySkeleton';
 import { toast } from 'react-toastify';
 import axiosMultipart from "config/axiosMulipartInstance";
 import LoadingModel from 'components/modal/LoadingModal';
-import { setUser, setLogout } from 'state/authSlice';
+import { setUser, setLogout, setDiary as setDiaryState } from 'state/authSlice';
 import NoData from 'components/noData';
+import { useNavigate } from 'react-router';
+import styles from "screens/Diary/UploadImage.module.css";
 
 const Profile = () => {
 
     const user = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [isDiaryLoading, setIsDiaryLoading] = useState(false);
     const [diary, setDiary] = useState([]);
@@ -39,6 +42,19 @@ const Profile = () => {
 
     const [files, setFiles] = useState([]);
 	const urls = files.map((file) => URL.createObjectURL(file));
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 750);
+
+    useEffect(() => {
+        const handleResize = () => {
+           setIsMobile(window.innerWidth < 750);
+        };
+  
+        window.addEventListener("resize", handleResize);
+  
+        return () => {
+           window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     const updateProfile = async () => {
         if (name === user.userName && files.length === 0) {
@@ -122,21 +138,30 @@ const Profile = () => {
 		setIsActivityLoading(false);
     }
 
+    const onDiaryClick = (diary) => {
+		dispatch(
+			setDiaryState({
+				diary : diary
+			})
+		)
+		navigate(`/diary/${diary.id}`);
+    }
+
     useEffect(() => {
         loadDiary();
         loadActivity();
     }, [])
 
     return (
-        <div className="flex min-h-screen pl-10 pr-10 bg-[#F5F5F5]">
+        <div className="flex flex-col md:flex-row min-h-screen pl-0 pr-0 md:pl-10 md:pr-10 bg-[#F5F5F5]">
             
-            <div className='profile-container'>
-                <div className='profile-sub-container'>
+            <div className={isMobile ? "profile-container-mobile" : `profile-container`}>
+                <div className={isMobile ? 'profile-sub-container-mobile' : 'profile-sub-container'}>
                     <Header />
 
                     <p className='inner-title'>Profile</p>
 
-                    <div className='profile-details-container'>
+                    <div className={isMobile ? 'profile-details-container-mobile' : 'profile-details-container'}>
                         <div>
                             <div className='profile-text-container'>
                                 <MdEmail className='icon' />
@@ -160,28 +185,28 @@ const Profile = () => {
                         </div>
                         
                         {user.profilePhoto ? (
-                            <div>
+                            <div className={isMobile ? 'flex justify-center' : ''}>
                                 <img 
                                     src={user.profilePhoto}
-                                    className='profile-user-img'
+                                    className={isMobile ? 'profile-user-img-mobile' : 'profile-user-img'}
                                     alt='profile'
                                 />
                             </div>
                         ):(
-                            <div className='profile-user-img' style={{ display:"flex", justifyContent:"center", alignItems:"center", backgroundColor:"#3A60F7" }}>
+                            <div className={isMobile ? 'profile-user-img-mobile flex justify-center' : 'profile-user-img'} style={{ display:"flex", justifyContent:"center", alignItems:"center", backgroundColor:"#3A60F7" }}>
                                 <p className='text-[white] font-bold text-4xl' >{user.userName[0]}</p>
                             </div>
                         )}
 
                     </div>
 
-                    <div style={{ margin : "2rem 0 rem", border : "1px solid black" }} />
+                    {isUpdateProfile && <div style={{ margin : "2rem 0rem", border : "1px solid black" }} /> }
 
                     { isUpdateProfile && (
                         <div>
                             <p className='inner-title'>Update Profile</p>
 
-                            <div className='profile-details-container'>
+                            <div className={isMobile ? 'profile-details-container-mobile' : 'profile-details-container'}>
                                 <div>
                                     <div className='profile-text-container'>
                                         <FaUser className='icon' />
@@ -258,10 +283,10 @@ const Profile = () => {
                 </div>
             </div>
 
-            <div className='profile-main-container'>
+            <div className={isMobile ? 'profile-main-container-mobile' : 'profile-main-container'}>
                 <div className='flex justify-between'>
                     <p className='inner-title'>Your Diaries</p>
-                    <div className="close" style={{ width:"fit-content", marginTop:"1.7rem" }} onClick={() => {
+                    <div className={styles.close} style={{ width:"fit-content", marginTop:"1.7rem" }} onClick={() => {
                         toast("logged out")
                         dispatch(
                             setLogout()
@@ -276,7 +301,8 @@ const Profile = () => {
                         diary.length > 0 ? (
                             <DiaryGrid
                                 itemData={diary}
-                                cols={2}
+                                cols={isMobile ? 1 : 2}
+                                diaryClick={(diary) => onDiaryClick(diary)}
                             />
                         ):(
                             <NoData message="No Diary Found" />

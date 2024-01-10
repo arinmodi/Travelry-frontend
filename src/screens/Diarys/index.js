@@ -26,6 +26,19 @@ const DiarysPage = () => {
     const [sort, setSort] = useState();
     const [searchText, setSearchText] = useState(search !== null ? search : "");
     const [isSearch, setIsSearch] = useState(search !== null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 750);
+
+    useEffect(() => {
+        const handleResize = () => {
+           setIsMobile(window.innerWidth < 750);
+        };
+  
+        window.addEventListener("resize", handleResize);
+  
+        return () => {
+           window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     const getMyDiary = async (sortRequested, force = 0) => {
         if (sort !== sortRequested || force) {
@@ -147,6 +160,7 @@ const DiarysPage = () => {
                             <DiaryGrid 
                                 itemData={diary}
                                 diaryClick={(diary) => onDiaryClick(diary)}
+                                cols={isMobile ? 1 : 4}
                             />
                         ):(
                             <NoData message="No Diary Found" />
