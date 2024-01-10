@@ -289,11 +289,11 @@ const DiaryPage = () => {
 
                      {isMoreLoading && (
                         <div className="mr-3 mb-3">
-                           <div className="flex">
+                           <div className="flex flex-col md:flex-row">
                               <MediaSkeleton amount={4} />
                            </div>
 
-                           <div className="flex mt-3">
+                           <div className="flex flex-col md:flex-row mt-3">
                               <MediaSkeleton amount={4} />
                            </div>
                         </div>

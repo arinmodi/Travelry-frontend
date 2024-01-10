@@ -175,11 +175,11 @@ const DiarysPage = () => {
                     </div>
                 ):(
                     <div>
-                        <div className='flex flex-row mt-5' style={{ marginLeft:"-2rem" }}>
+                        <div className='flex flex-col md:flex-row mt-5' style={{ marginLeft:"-2rem" }}>
                             <DiarySkeleton amount={4} />
                         </div>
 
-                        <div className='flex flex-row mt-5' style={{ marginLeft:"-2rem" }}>
+                        <div className='flex flex-col md:flex-row mt-5' style={{ marginLeft:"-2rem" }}>
                             <DiarySkeleton amount={4} />
                         </div>
                     </div>

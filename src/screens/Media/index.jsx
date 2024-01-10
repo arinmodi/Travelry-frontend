@@ -132,7 +132,7 @@ const Media = () => {
    }, []);
 
    useEffect(() => {
-      const socket = new SockJS("http://localhost:8080/ws-message");
+      const socket = new SockJS("https://travelry-backedn.onrender.com/ws-message");
       const stomp = Stomp.over(socket);
       setStompClient(stomp);
       return () => {
