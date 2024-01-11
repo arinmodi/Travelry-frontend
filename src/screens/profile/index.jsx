@@ -147,6 +147,14 @@ const Profile = () => {
 		navigate(`/diary/${diary.id}`);
     }
 
+    const onMoreClick = () => {
+		navigate("/diarys")
+	}
+
+	const onMoreActivityClick = () => {
+		navigate("/activities")
+	}
+
     useEffect(() => {
         loadDiary();
         loadActivity();
@@ -315,7 +323,7 @@ const Profile = () => {
                 </div>
 
                 {isMoreDiary ?( 
-                    <div style={{ display:'flex', justifyContent:"center", marginTop:"2rem" }}>
+                    <div style={{ display:'flex', justifyContent:"center", marginTop:"2rem" }} onClick={onMoreClick}>
                         <p className='load-more'>more</p>
                     </div>
                 ):(
@@ -341,7 +349,7 @@ const Profile = () => {
                     )}
 
                     {isMoreActivity && (
-                        <div style={{ display:'flex', justifyContent:"center", marginTop:"2rem" }}>
+                        <div style={{ display:'flex', justifyContent:"center", marginTop:"2rem" }} onClick={onMoreActivityClick}>
                             <p className='load-more'>more</p>
                         </div>
                     )}
