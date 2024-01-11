@@ -316,7 +316,7 @@ const Profile = () => {
                             <NoData message="No Diary Found" />
                         )
                     ):(
-                        <div className='flex flex-col md:flex-row' style={{ marginLeft:"-2rem" }}>
+                        <div className='flex flex-col md:flex-row' style={{ marginLeft:isMobile ? "0rem" : "-2rem" }}>
                             <DiarySkeleton amount={2} />
                         </div>
                     )}
